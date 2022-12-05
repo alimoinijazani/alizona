@@ -14,3 +14,20 @@ code {
 nav {
   background: black;
 }
+.site-container {
+  min-height: 100vh;
+}
+main {
+  flex: 1;
+}
+
+.product-img {
+  max-height: 400px;
+}
+.btn-primary {
+  background-color: rgb(195, 215, 44);
+  color: black;
+}
+.rating > span {
+  color: rgb(195, 215, 44);
+}
