@@ -86,18 +86,23 @@ export default function ProductScreen() {
       <Col md={3}>
         <Card>
           <ListGroup variant="flush">
-            <ListGroup.Item>Price:{product.price}</ListGroup.Item>
             <ListGroup.Item>
-              Status:{' '}
-              {product.conutInStock === 0 ? (
-                <Badge pill bg="danger">
-                  out of stock
-                </Badge>
-              ) : (
-                <Badge pill bg="success">
-                  in stock
-                </Badge>
-              )}
+              <Col>Price:</Col>
+              <Col>{product.price}</Col>
+            </ListGroup.Item>
+            <ListGroup.Item>
+              <Col>Status:</Col>
+              <Col>
+                {product.conutInStock === 0 ? (
+                  <Badge pill bg="danger">
+                    out of stock
+                  </Badge>
+                ) : (
+                  <Badge pill bg="success">
+                    in stock
+                  </Badge>
+                )}
+              </Col>
             </ListGroup.Item>
             <ListGroup.Item>
               <div className="d-grid">
