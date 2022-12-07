@@ -19,14 +19,15 @@ export default function Product({ product }) {
       ctxDispatch({ type: 'CART_ADD_ITEM', payload: { ...product, quantity } });
     }
   };
+
   return (
     <Card>
-      <Link to={`/products/:${product.slug}`}>
+      <Link to={`/product/${product.slug}`}>
         <img src={product.image} alt={product.name} className="card-img-top" />
       </Link>
       <Card.Body>
         <Card.Title>
-          <Link to={`/products/:${product.slug}`}>{product.name}</Link>
+          <Link to={`/products/${product.slug}`}>{product.name}</Link>
 
           <Rating rating={product.rating} />
 

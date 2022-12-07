@@ -23,7 +23,10 @@ nav {
 main {
   flex: 1;
 }
-
+footer {
+  position: relative;
+  bottom: 0;
+}
 .product-img {
   max-height: 400px;
 }
@@ -33,4 +36,10 @@ main {
 }
 .rating > span {
   color: rgb(195, 215, 44);
+}
+.img-product {
+  max-height: 85vh;
+}
+.list-group-item {
+  border-bottom: 1px solid black;
 }
