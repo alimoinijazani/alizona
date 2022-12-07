@@ -1,13 +1,23 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Rating from './Rating';
 
+import axios from 'axios';
+import { Store } from '../Store';
+
 export default function Product({ product }) {
-  const navigate = useNavigate();
-  const addCartHandler = (product) => {
-    navigate('/cart');
+  const { state, dispatch: ctxDispatch } = useContext(Store);
+  const addCartHandler = async (product) => {
+    const existItems = state.cart.cartItems.find((p) => p._id === product._id);
+    const quantity = existItems ? existItems.quantity + 1 : 1;
+    const { data } = await axios.get(`/api/products/${product._id}`);
+    if (data.countInStock < quantity) {
+      window.alert('Sorry Not Enough Product');
+    } else {
+      ctxDispatch({ type: 'CART_ADD_ITEM', payload: [...product, quantity] });
+    }
   };
   return (
     <Card>
