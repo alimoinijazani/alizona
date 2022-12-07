@@ -16,7 +16,7 @@ export default function Product({ product }) {
     if (data.countInStock < quantity) {
       window.alert('Sorry Not Enough Product');
     } else {
-      ctxDispatch({ type: 'CART_ADD_ITEM', payload: [...product, quantity] });
+      ctxDispatch({ type: 'CART_ADD_ITEM', payload: { ...product, quantity } });
     }
   };
   return (
@@ -32,7 +32,9 @@ export default function Product({ product }) {
 
           <div>${product.price}</div>
         </Card.Title>
-        {product.countInStock <= 0 ? (
+        {product.countInStock <= 0 ||
+        product.countInStock <=
+          state.cart.cartItems.find((x) => x._id === product._id).quantity ? (
           <Button variant="light" disabled>
             outOfStock
           </Button>

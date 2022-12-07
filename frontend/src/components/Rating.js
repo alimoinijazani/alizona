@@ -6,7 +6,7 @@ export default function Rating({ rating, caption }) {
   console.log();
   return (
     <div className="rating">
-      {rating}
+      {rating}{' '}
       {stars.map((star) => (
         <span key={star}>
           <FaStar />
