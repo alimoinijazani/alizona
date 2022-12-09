@@ -35,7 +35,8 @@ export default function Product({ product }) {
         </Card.Title>
         {product.countInStock <= 0 ||
         product.countInStock <=
-          state.cart.cartItems.find((x) => x._id === product._id).quantity ? (
+          { ...state.cart.cartItems.find((x) => x._id === product._id) }
+            .quantity ? (
           <Button variant="light" disabled>
             outOfStock
           </Button>

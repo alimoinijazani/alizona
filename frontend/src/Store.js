@@ -19,7 +19,13 @@ const reducer = (state, action) => {
         : [...state.cart.cartItems, newItem];
       localStorage.setItem('cartItems', JSON.stringify(cartItems));
       return { ...state, cart: { ...state.cart, cartItems } };
-
+    case 'CART_REMOVE_ITEM': {
+      const cartItems = state.cart.cartItems.filter(
+        (x) => x._id !== action.payload._id
+      );
+      localStorage.removeItem('cartItems', action.payload);
+      return { ...state, cart: { ...state.cart, cartItems } };
+    }
     default:
       return state;
   }

@@ -17,7 +17,7 @@ export default function NavScreen() {
             <NavBar.Brand>alizona</NavBar.Brand>
           </LinkContainer>
 
-          <Nav className="ms-auto">
+          <Nav className="me-auto w-100 justify-content-end">
             <Nav.Item>
               <Link to="/cart">
                 Cart
