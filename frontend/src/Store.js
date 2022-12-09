@@ -6,6 +6,9 @@ const initialState = {
       ? JSON.parse(localStorage.getItem('cartItems'))
       : [],
   },
+  userInfo: localStorage.getItem('userInfo')
+    ? JSON.parse(localStorage.getItem('userInfo'))
+    : null,
 };
 const reducer = (state, action) => {
   switch (action.type) {
@@ -26,6 +29,10 @@ const reducer = (state, action) => {
       localStorage.removeItem('cartItems', action.payload);
       return { ...state, cart: { ...state.cart, cartItems } };
     }
+    case 'USER_SIGNIN':
+      const userInfo = action.payload;
+      return { ...state, cart: { ...state.cart }, userInfo };
+
     default:
       return state;
   }

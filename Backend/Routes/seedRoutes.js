@@ -7,7 +7,7 @@ seedRouter.get('/', async (req, res) => {
   await Product.deleteMany({});
   const createProducts = Product.insertMany(data.products);
   await User.deleteMany({});
-  const createUsers = await insertMany(data.users);
+  const createUsers = await User.insertMany(data.users);
   res.send({ createProducts, createUsers });
 });
 
