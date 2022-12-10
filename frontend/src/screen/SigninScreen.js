@@ -31,7 +31,6 @@ export default function SigninScreen() {
     } catch (err) {
       toast.error(getError(err));
     }
-    console.log(localStorage);
   };
   useEffect(() => {
     if (userInfo) {

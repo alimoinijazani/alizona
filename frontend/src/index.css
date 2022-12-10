@@ -52,8 +52,8 @@ footer {
   max-width: 600px;
 }
 .checkout {
-  border-bottom: 2px solid grey;
+  border-bottom: 3px solid grey;
 }
 .checkout-active {
-  border-bottom: 2px solid green;
+  border-bottom: 3px solid green;
 }

@@ -6,7 +6,7 @@ import Input from '../components/Input';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { Store } from '../Store';
-import { Navigate, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { getError } from '../utils';
 export default function SignUpScreen() {
   const navigate = useNavigate();
@@ -72,6 +72,12 @@ export default function SignUpScreen() {
         />
         <Button type="submit">signUp</Button>
       </Form>
+      <div className="my-2">
+        Already Have Account?{' '}
+        <Link to={`/signin?redirect=${redirect}`} className="link-primary">
+          Sign-in
+        </Link>
+      </div>
     </div>
   );
 }
