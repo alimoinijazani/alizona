@@ -2,7 +2,7 @@ import express from 'express';
 import expressAsyncHandler from 'express-async-handler';
 import User from '../models/userModel.js';
 import bcrypt from 'bcryptjs';
-
+import { generateToken } from './../models/utils.js';
 const userRouter = express.Router();
 
 userRouter.get('/', async (req, res) => {

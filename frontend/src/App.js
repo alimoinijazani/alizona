@@ -7,6 +7,7 @@ import CartScreen from './screen/CartScreen';
 import ProductScreen from './screen/ProductScreen';
 import SigninScreen from './screen/SigninScreen';
 import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 export default function App() {
   return (
     <BrowserRouter>

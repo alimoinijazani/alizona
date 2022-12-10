@@ -24,10 +24,10 @@ export default function SigninScreen() {
         email,
         password,
       });
+
       ctxDispatch({ type: 'USER_SIGNIN', payload: data });
       localStorage.setItem('userInfo', JSON.stringify(data));
       navigate(redirect || '/');
-      toast.success('you signin');
     } catch (err) {
       toast.err(getError(err));
     }
@@ -61,7 +61,7 @@ export default function SigninScreen() {
             required
           ></Form.Control>
         </Form.Group>
-        <Button>Sign in</Button>
+        <Button type="submit">Sign in</Button>
       </Form>
       <div className="my-2">
         newCustomer?{' '}

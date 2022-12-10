@@ -32,7 +32,8 @@ const reducer = (state, action) => {
     case 'USER_SIGNIN':
       const userInfo = action.payload;
       return { ...state, cart: { ...state.cart }, userInfo };
-
+    case 'USER_SIGNOUT':
+      return { ...state, userInfo: null, cart: { cartItems: [] } };
     default:
       return state;
   }
