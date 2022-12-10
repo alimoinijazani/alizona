@@ -13,8 +13,10 @@ export default function NavScreen() {
   const signoutHandler = () => {
     ctxDispatch({ type: 'USER_SIGNOUT' });
     localStorage.removeItem('userInfo');
+    localStorage.removeItem('shippingAddress');
     window.location.href = '/signin';
   };
+
   return (
     <header>
       <NavBar bg="dark" variant="dark">
