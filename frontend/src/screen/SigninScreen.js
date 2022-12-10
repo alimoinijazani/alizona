@@ -29,7 +29,7 @@ export default function SigninScreen() {
       localStorage.setItem('userInfo', JSON.stringify(data));
       navigate(redirect || '/');
     } catch (err) {
-      toast.err(getError(err));
+      toast.error(getError(err));
     }
   };
   useEffect(() => {

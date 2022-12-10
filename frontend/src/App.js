@@ -8,6 +8,7 @@ import ProductScreen from './screen/ProductScreen';
 import SigninScreen from './screen/SigninScreen';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import ShippingScreen from './screen/ShippingScreen';
 export default function App() {
   return (
     <BrowserRouter>
@@ -21,6 +22,7 @@ export default function App() {
               <Route path="/cart" element={<CartScreen />} />
               <Route path="/product/:slug" element={<ProductScreen />} />
               <Route path="/signin" element={<SigninScreen />} />
+              <Route path="/shipping" element={<ShippingScreen />} />
             </Routes>
           </Container>
         </main>

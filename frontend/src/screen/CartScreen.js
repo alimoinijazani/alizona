@@ -26,6 +26,7 @@ export default function CartScreen() {
   const checkoutHandler = () => {
     navigate('/signin?redirect=/shipping');
   };
+
   return (
     <Row>
       <Helmet>
