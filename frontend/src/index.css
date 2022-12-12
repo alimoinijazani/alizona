@@ -42,9 +42,9 @@ footer {
 .img-product {
   max-height: 85vh;
 }
-.list-group-item {
+/* .list-group-item {
   border-bottom: 1px solid black;
-}
+} */
 .img-thumbnail {
   height: 80px;
 }
