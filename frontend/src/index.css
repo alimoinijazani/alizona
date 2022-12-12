@@ -57,3 +57,9 @@ footer {
 .checkout-active {
   border-bottom: 3px solid green;
 }
+.dropdown-menu {
+  background: rgb(57, 57, 57);
+}
+.dropdown-item {
+  color: rgb(225, 222, 222);
+}

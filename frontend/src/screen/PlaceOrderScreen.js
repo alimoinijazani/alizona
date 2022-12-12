@@ -19,7 +19,7 @@ const reducer = (state, action) => {
     case 'CREATE_SUCCESS':
       return { ...state, loading: false };
     case 'CREATE_FAIL':
-      return { ...state, loading: false, error: action.payload };
+      return { ...state, loading: false };
     default:
       return state;
   }
@@ -111,7 +111,7 @@ export default function PlaceOrderScreen() {
               <Card.Title>Items</Card.Title>
 
               {cart.cartItems.map((item) => (
-                <Row key={item._id}>
+                <Row key={item._id} className="align-item-center">
                   <Col md={6}>
                     <Link to={`/product/${item.slug}`}>
                       <img

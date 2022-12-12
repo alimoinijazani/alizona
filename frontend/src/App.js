@@ -12,6 +12,7 @@ import ShippingScreen from './screen/ShippingScreen';
 import PaymentScreen from './screen/PaymentScreen';
 import SignUpScreen from './screen/SignUpScreen';
 import PlaceOrderScreen from './screen/PlaceOrderScreen';
+import OrderScreen from './screen/OrderScreen';
 export default function App() {
   return (
     <BrowserRouter>
@@ -29,6 +30,7 @@ export default function App() {
               <Route path="/payment" element={<PaymentScreen />} />
               <Route path="/signup" element={<SignUpScreen />} />
               <Route path="/placeorder" element={<PlaceOrderScreen />} />
+              <Route path="/order/:id" element={<OrderScreen />} />
             </Routes>
           </Container>
         </main>
