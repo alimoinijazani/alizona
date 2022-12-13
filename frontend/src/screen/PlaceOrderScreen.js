@@ -156,7 +156,7 @@ export default function PlaceOrderScreen() {
                 <ListGroup.Item>
                   <strong>
                     <Row>
-                      <Col>orderTotals:</Col> <Col>{cart.toalPrice}</Col>
+                      <Col>orderTotals:</Col> <Col>{cart.totalPrice}</Col>
                     </Row>
                   </strong>
                 </ListGroup.Item>
