@@ -14,6 +14,7 @@ import SignUpScreen from './screen/SignUpScreen';
 import PlaceOrderScreen from './screen/PlaceOrderScreen';
 import OrderScreen from './screen/OrderScreen';
 import OrderHistoryScreen from './screen/OrderHistoryScreen';
+import ProfileScreen from './screen/ProfileScreen';
 export default function App() {
   return (
     <BrowserRouter>
@@ -33,6 +34,7 @@ export default function App() {
               <Route path="/placeorder" element={<PlaceOrderScreen />} />
               <Route path="/order/:id" element={<OrderScreen />} />
               <Route path="/orderhistory" element={<OrderHistoryScreen />} />
+              <Route path="/profile" element={<ProfileScreen />} />
             </Routes>
           </Container>
         </main>

@@ -26,7 +26,7 @@ export default function NavScreen() {
           </LinkContainer>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
-            <Nav className="me-auto w-100 justify-content-start align-items-center">
+            <Nav className="me-auto w-100 justify-content-end align-items-center">
               <Nav.Item>
                 <Link to="/cart">
                   Cart
