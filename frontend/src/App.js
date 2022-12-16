@@ -13,6 +13,7 @@ import PaymentScreen from './screen/PaymentScreen';
 import SignUpScreen from './screen/SignUpScreen';
 import PlaceOrderScreen from './screen/PlaceOrderScreen';
 import OrderScreen from './screen/OrderScreen';
+import OrderHistoryScreen from './screen/OrderHistoryScreen';
 export default function App() {
   return (
     <BrowserRouter>
@@ -31,6 +32,7 @@ export default function App() {
               <Route path="/signup" element={<SignUpScreen />} />
               <Route path="/placeorder" element={<PlaceOrderScreen />} />
               <Route path="/order/:id" element={<OrderScreen />} />
+              <Route path="/orderhistory" element={<OrderHistoryScreen />} />
             </Routes>
           </Container>
         </main>
