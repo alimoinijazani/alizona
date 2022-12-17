@@ -3,11 +3,14 @@ import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import Container from 'react-bootstrap/Container';
 import NavDropdown from 'react-bootstrap/NavDropdown';
+import { FaBars } from 'react-icons/fa';
 import Badge from 'react-bootstrap/Badge';
+import Button from 'react-bootstrap/Button';
 import { LinkContainer } from 'react-router-bootstrap';
 import { Link } from 'react-router-dom';
 import { Store } from '../Store';
-export default function NavScreen() {
+import SearchBox from '../components/SearchBox';
+export default function NavScreen({ sideBar, onSide }) {
   const { state, dispatch: ctxDispatch } = useContext(Store);
   const { cart, userInfo } = state;
   const signoutHandler = () => {
@@ -21,12 +24,16 @@ export default function NavScreen() {
     <header>
       <Navbar bg="dark" variant="dark" expand="lg">
         <Container>
+          <Button variant="dark" onClick={() => onSide(sideBar)}>
+            <FaBars />
+          </Button>
           <LinkContainer to="/">
-            <Navbar.Brand>alizona</Navbar.Brand>
+            <Navbar.Brand>Alizona</Navbar.Brand>
           </LinkContainer>
+          <SearchBox />
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
-            <Nav className="me-auto w-100 justify-content-end align-items-center">
+            <Nav className="me-auto w-100 justify-content-start align-items-center p-2">
               <Nav.Item>
                 <Link to="/cart">
                   Cart

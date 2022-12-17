@@ -67,8 +67,10 @@ userRouter.put(
         isAdmin: updatedUser.isAdmin,
         token: generateToken(updatedUser),
       });
+    } else {
+      res.status(404).send({ message: 'user not found' });
     }
-    res.status(404).send({ message: 'user not found' });
   })
 );
+
 export default userRouter;

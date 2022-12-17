@@ -6,8 +6,8 @@ import axios from 'axios';
 import { Store } from '../Store';
 import { toast } from 'react-toastify';
 import { getError } from '../utils';
-import MessageBox from '../components/MessageBox';
-import Loading from '../components/Loading';
+
+// import Loading from '../components/Loading';
 const reducer = (state, action) => {
   switch (action.type) {
     case 'UPDATE_REQUEST':
@@ -22,7 +22,7 @@ const reducer = (state, action) => {
 };
 
 export default function ProfileScreen() {
-  const [{ loadingUpdate }, dispatch] = useReducer(reducer, {
+  const [dispatch] = useReducer(reducer, {
     loading: false,
   });
   const { state, dispatch: ctxDispatch } = useContext(Store);
@@ -96,7 +96,7 @@ export default function ProfileScreen() {
           ></Form.Control>
         </Form.Group>
         <Button type="submit">Update</Button>
-        {loadingUpdate && <Loading />}
+        {/* {loadingUpdate && <Loading />} */}
       </form>
     </div>
   );

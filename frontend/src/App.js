@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import HomeScreen from './screen/HomeScreen';
 import NavScreen from './screen/NavScreen';
@@ -6,7 +6,7 @@ import Container from 'react-bootstrap/Container';
 import CartScreen from './screen/CartScreen';
 import ProductScreen from './screen/ProductScreen';
 import SigninScreen from './screen/SigninScreen';
-import { ToastContainer } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ShippingScreen from './screen/ShippingScreen';
 import PaymentScreen from './screen/PaymentScreen';
@@ -15,12 +15,40 @@ import PlaceOrderScreen from './screen/PlaceOrderScreen';
 import OrderScreen from './screen/OrderScreen';
 import OrderHistoryScreen from './screen/OrderHistoryScreen';
 import ProfileScreen from './screen/ProfileScreen';
+import SideBarScreen from './screen/SideBarScreen';
+import axios from 'axios';
+import { getError } from './utils';
+
 export default function App() {
+  const [sideBar, setSideBar] = useState(false);
+  const [categories, setCategories] = useState([]);
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const { data } = await axios.get('/api/products/category');
+        setCategories(data);
+      } catch (err) {
+        toast.error(getError(err));
+      }
+    };
+    fetchCategories();
+  }, []);
+
   return (
     <BrowserRouter>
       <ToastContainer position="bottom-center" limit={1}></ToastContainer>
-      <div className="d-flex flex-column site-container">
-        <NavScreen />
+      <div
+        className={
+          sideBar
+            ? 'd-flex flex-column site-container active-cont'
+            : 'd-flex flex-column site-container'
+        }
+      >
+        <NavScreen
+          sideBar={sideBar}
+          onSide={(sideBar) => setSideBar(!sideBar)}
+        />
+        <SideBarScreen sideBar={sideBar} categories={categories} />
         <main>
           <Container>
             <Routes>

@@ -6,6 +6,10 @@ productRouter.get('/', async (req, res) => {
   const product = await Product.find();
   res.send(product);
 });
+productRouter.get('/category', async (req, res) => {
+  const categories = await Product.find().distinct('category');
+  res.send(categories);
+});
 productRouter.get('/:id', async (req, res) => {
   const product = await Product.findById(req.params.id);
   if (!product) {

@@ -63,3 +63,18 @@ footer {
 .dropdown-item {
   color: rgb(225, 222, 222);
 }
+.active-cont {
+  margin-left: 240px;
+  transition: 0.4s;
+}
+.sidebar {
+  background: #100901;
+  width: 240px;
+  position: absolute;
+  left: -240px;
+  height: 100%;
+}
+.side-active {
+  left: 0;
+  transition: 0.5s;
+}
