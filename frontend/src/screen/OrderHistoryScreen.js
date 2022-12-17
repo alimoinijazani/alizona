@@ -26,7 +26,8 @@ export default function OrderHistoryScreen() {
     error: '',
   });
   const navigate = useNavigate();
-  const { userInfo } = useContext(Store);
+  const { state } = useContext(Store);
+  const { userInfo } = state;
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -41,6 +42,7 @@ export default function OrderHistoryScreen() {
         dispatch({ type: 'FETCH_FAIL', payload: getError(err) });
       }
     };
+
     fetchData();
   }, [userInfo]);
 

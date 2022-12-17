@@ -11,22 +11,22 @@ import Loading from '../components/Loading';
 const reducer = (state, action) => {
   switch (action.type) {
     case 'UPDATE_REQUEST':
-      return { ...state, loading: true };
+      return { ...state, loadingUpdate: true };
     case 'UPDATE_SUCCESS':
-      return { ...state, loading: false, user: action.payload };
+      return { ...state, loadingUpdate: false };
     case 'UPDATE_FAIL':
-      return { ...state, loading: false, error: action.payload };
+      return { ...state, loadingUpdate: false };
     default:
       return state;
   }
 };
 
 export default function ProfileScreen() {
-  const [{ loading, error }, dispatch] = useReducer(reducer, {
-    loading: true,
-    error: '',
+  const [{ loadingUpdate }, dispatch] = useReducer(reducer, {
+    loading: false,
   });
-  const { userInfo, dispoatch: ctxDispatch } = useContext(Store);
+  const { state, dispatch: ctxDispatch } = useContext(Store);
+  const { userInfo } = state;
   const [name, setName] = useState(userInfo.name);
   const [email, setEmail] = useState(userInfo.email);
   const [password, setPassword] = useState('');
@@ -34,9 +34,7 @@ export default function ProfileScreen() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (password !== confirmPassword) {
-      return toast.error('pass should be equall to confirmpass');
-    }
+
     try {
       dispatch({ type: 'UPDATE_REQUEST' });
 
@@ -50,8 +48,8 @@ export default function ProfileScreen() {
         }
       );
       dispatch({ type: 'UPDATE_SUCCESS' });
-      ctxDispatch({ type: 'USER_SIGNIN' });
-      localStorage.setItems('userInfo', JSON.stringify(data));
+      ctxDispatch({ type: 'USER_SIGNIN', payload: data });
+      localStorage.setItem('userInfo', JSON.stringify(data));
       toast.success('user Updated successfully');
     } catch (err) {
       dispatch({ type: 'UPDATE_FAIL' });
@@ -65,29 +63,32 @@ export default function ProfileScreen() {
       </Helmet>
       <h1>User Profile</h1>
       <form onSubmit={handleSubmit}>
-        <Form.Group className="mb-3">
+        <Form.Group className="mb-3" controlId="name">
           <Form.Label>Name</Form.Label>
           <Form.Control
+            value={name}
             onChange={(e) => setName(e.target.value)}
             required
           ></Form.Control>
         </Form.Group>
-        <Form.Group className="mb-3">
+        <Form.Group className="mb-3" controlId="email">
           <Form.Label>Email</Form.Label>
           <Form.Control
+            value={email}
             type="email"
             onChange={(e) => setEmail(e.target.value)}
             required
           ></Form.Control>
         </Form.Group>
-        <Form.Group className="mb-3">
+        <Form.Group className="mb-3" controlId="password">
           <Form.Label>Password</Form.Label>
           <Form.Control
+            value={password}
             type="password"
             onChange={(e) => setPassword(e.target.value)}
           ></Form.Control>
         </Form.Group>
-        <Form.Group className="mb-3">
+        <Form.Group className="mb-3" controlId="confirmPassword">
           <Form.Label>Confirm Password</Form.Label>
           <Form.Control
             value={confirmPassword}
@@ -95,11 +96,7 @@ export default function ProfileScreen() {
           ></Form.Control>
         </Form.Group>
         <Button type="submit">Update</Button>
-        {loading ? (
-          <Loading />
-        ) : error ? (
-          <MessageBox variant="danger">{error}</MessageBox>
-        ) : null}
+        {loadingUpdate && <Loading />}
       </form>
     </div>
   );
