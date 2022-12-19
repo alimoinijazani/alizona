@@ -18,6 +18,7 @@ import ProfileScreen from './screen/ProfileScreen';
 import SideBarScreen from './screen/SideBarScreen';
 import axios from 'axios';
 import { getError } from './utils';
+import SearchScreen from './screen/SearchScreen';
 
 export default function App() {
   const [sideBar, setSideBar] = useState(false);
@@ -63,6 +64,7 @@ export default function App() {
               <Route path="/order/:id" element={<OrderScreen />} />
               <Route path="/orderhistory" element={<OrderHistoryScreen />} />
               <Route path="/profile" element={<ProfileScreen />} />
+              <Route path="/search" element={<SearchScreen />} />
             </Routes>
           </Container>
         </main>

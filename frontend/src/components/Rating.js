@@ -1,8 +1,9 @@
 import React from 'react';
-import { FaStarHalf, FaStar } from 'react-icons/fa';
+import { FaStarHalf, FaStar, FaRegStar } from 'react-icons/fa';
 export default function Rating({ rating, caption }) {
   const oneStars = Math.floor(rating);
   const stars = [...Array(oneStars).keys()];
+
   return (
     <div className="rating">
       {rating}{' '}
@@ -18,6 +19,12 @@ export default function Rating({ rating, caption }) {
           <FaStarHalf />
         </span>
       ) : null}
+      {[...Array(5 - Math.ceil(rating)).keys()].map((star) => (
+        <span key={star}>
+          <FaRegStar />
+        </span>
+      ))}
+      {caption && <span>{caption}</span>}
     </div>
   );
 }

@@ -45,6 +45,9 @@ footer {
 /* .list-group-item {
   border-bottom: 1px solid black;
 } */
+ul {
+  list-style-type: none;
+}
 .img-thumbnail {
   height: 80px;
 }
@@ -77,4 +80,7 @@ footer {
 .side-active {
   left: 0;
   transition: 0.5s;
+}
+.text-bold {
+  font-weight: 700;
 }
