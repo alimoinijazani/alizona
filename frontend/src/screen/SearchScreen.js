@@ -53,8 +53,9 @@ export default function SearchScreen() {
   const price = sp.get('price') || 'all';
   const rating = sp.get('rating') || 'all';
   const order = sp.get('order') || 'newest';
-  const page = sp.get('page') || '1';
+  const p = sp.get('page') || '1';
   const [categories, setCategories] = useState([]);
+  const [page, setPage] = useState(p);
   const getFilterUrl = (filter) => {
     const filterQuery = filter.query || query;
     const filterCategory = filter.category || category;
@@ -69,15 +70,18 @@ export default function SearchScreen() {
       try {
         dispatch({ type: 'FETCH_REQUEST' });
         const { data } = await axios.get(
-          `/api/products/search?category=${category}&query=${query}&page=${page}&order=${order}&price=${price}&rating=${rating}`
+          `/api/products/search?category=${category}&query=${query}&page=${p}&order=${order}&price=${price}&rating=${rating}`
         );
         dispatch({ type: 'FETCH_SUCCESS', payload: data });
+        if (pages === 1) {
+          setPage(1);
+        }
       } catch (err) {
         dispatch({ type: 'FETCH_FAIL' });
       }
     };
     fetchData();
-  }, [category, order, page, price, query, rating]);
+  }, [category, order, p, page, pages, price, query, rating]);
   useEffect(() => {
     const fetchCategories = async () => {
       try {
@@ -174,13 +178,13 @@ export default function SearchScreen() {
                 {price !== 'all' ? `Price: ${price}` : null}:
                 {rating !== 'all' ? `Rating: ${rating} &up` : null}
                 {query !== 'all' ||
-                  category !== 'all' ||
-                  price !== 'all' ||
-                  (rating !== 'all' ? (
-                    <Button variant="light" onClick={() => navigate('/search')}>
-                      <FaTimesCircle />
-                    </Button>
-                  ) : null)}
+                category !== 'all' ||
+                price !== 'all' ||
+                rating !== 'all' ? (
+                  <Button variant="light" onClick={() => navigate('/search')}>
+                    <FaTimesCircle />
+                  </Button>
+                ) : null}
               </Col>
 
               <Col className="text-end">

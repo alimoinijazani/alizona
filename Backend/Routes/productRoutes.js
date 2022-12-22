@@ -17,7 +17,7 @@ productRouter.get(
   expressAsyncHandler(async (req, res) => {
     const { query } = req;
     const pageSize = query.pageSize || PAGE_SIZE;
-    const page = query.page;
+    const page = query.page || 1;
     const brand = query.brand || '';
     const category = query.category || '';
     const searchQquery = query.query || '';
