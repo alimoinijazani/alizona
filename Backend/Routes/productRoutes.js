@@ -1,16 +1,14 @@
 import express from 'express';
 import Product from '../models/productModel.js';
 import expressAsyncHandler from 'express-async-handler';
+import { isAdmin, isAuth } from './../models/utils.js';
 const productRouter = express.Router();
 
 productRouter.get('/', async (req, res) => {
   const product = await Product.find();
   res.send(product);
 });
-productRouter.get('/category', async (req, res) => {
-  const categories = await Product.find().distinct('category');
-  res.send(categories);
-});
+
 const PAGE_SIZE = 3;
 productRouter.get(
   '/search',
@@ -79,7 +77,26 @@ productRouter.get(
     });
   })
 );
-
+productRouter.get(
+  '/admin',
+  isAuth,
+  isAdmin,
+  expressAsyncHandler(async (req, res) => {
+    const countProducts = await Product.countDocuments();
+    const { query } = req;
+    const page = query.page || 1;
+    const pageSize = query.pageSize || PAGE_SIZE;
+    const products = await Product.find()
+      .skip((page - 1) * pageSize)
+      .limit(pageSize);
+    const pages = Math.ceil(countProducts / pageSize);
+    res.send({ products, page, pages });
+  })
+);
+productRouter.get('/category', async (req, res) => {
+  const categories = await Product.find().distinct('category');
+  res.send(categories);
+});
 productRouter.get('/:id', async (req, res) => {
   const product = await Product.findById(req.params.id);
   if (!product) {

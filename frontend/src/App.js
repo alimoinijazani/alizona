@@ -21,6 +21,7 @@ import { getError } from './utils';
 import SearchScreen from './screen/SearchScreen';
 import AdminRoutes from './components/AdminRoutes';
 import DashBoardScreen from './screen/DashBoardScreen';
+import ProductListScreen from './screen/ProductListScreen';
 
 export default function App() {
   const [sideBar, setSideBar] = useState(false);
@@ -73,6 +74,14 @@ export default function App() {
                 element={
                   <AdminRoutes>
                     <DashBoardScreen />{' '}
+                  </AdminRoutes>
+                }
+              />
+              <Route
+                path="/admin/products"
+                element={
+                  <AdminRoutes>
+                    <ProductListScreen />
                   </AdminRoutes>
                 }
               />
