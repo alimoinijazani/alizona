@@ -33,7 +33,7 @@ export default function NavScreen({ sideBar, onSide }) {
           <SearchBox />
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
-            <Nav className="me-auto w-100 justify-content-start align-items-center p-2">
+            <Nav className="ms-auto w-100 justify-content-end align-items-center p-2">
               <Nav.Item>
                 <Link to="/cart">
                   Cart
@@ -63,6 +63,24 @@ export default function NavScreen({ sideBar, onSide }) {
                     Signin
                   </Link>
                 )}
+              </Nav.Item>
+              <Nav.Item>
+                {userInfo.isAdmin ? (
+                  <NavDropdown title="admin" id="admin-nav-dropdown">
+                    <LinkContainer to="/admin/dashboard">
+                      <NavDropdown.Item>Dashboard</NavDropdown.Item>
+                    </LinkContainer>
+                    <LinkContainer to="/admin/products">
+                      <NavDropdown.Item>Products</NavDropdown.Item>
+                    </LinkContainer>
+                    <LinkContainer to="/admin/orders">
+                      <NavDropdown.Item>Orders</NavDropdown.Item>
+                    </LinkContainer>
+                    <LinkContainer to="/admin/users">
+                      <NavDropdown.Item>Users</NavDropdown.Item>
+                    </LinkContainer>
+                  </NavDropdown>
+                ) : null}
               </Nav.Item>
             </Nav>
           </Navbar.Collapse>
