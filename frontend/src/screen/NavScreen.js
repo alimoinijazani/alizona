@@ -65,7 +65,7 @@ export default function NavScreen({ sideBar, onSide }) {
                 )}
               </Nav.Item>
               <Nav.Item>
-                {userInfo.isAdmin ? (
+                {userInfo && userInfo.isAdmin ? (
                   <NavDropdown title="admin" id="admin-nav-dropdown">
                     <LinkContainer to="/admin/dashboard">
                       <NavDropdown.Item>Dashboard</NavDropdown.Item>
