@@ -111,5 +111,46 @@ productRouter.get('/product/:slug', async (req, res) => {
   }
   res.send(product);
 });
-
+productRouter.post(
+  '/',
+  isAuth,
+  isAdmin,
+  expressAsyncHandler(async (req, res) => {
+    const newProduct = new Product({
+      name: 'Sample Name' + Date.now(),
+      slug: 'sample-slug' + Date.now(),
+      category: 'sample category',
+      image: '/image/p1',
+      price: 0,
+      countInStock: 0,
+      brand: 'sample brand',
+      rating: 0,
+      numReviews: 0,
+      description: 'sample Description',
+    });
+    const product = await newProduct.save();
+    res.send({ message: 'product Created', product });
+  })
+);
+productRouter.put(
+  '/:id',
+  isAuth,
+  isAdmin,
+  expressAsyncHandler(async (req, res) => {
+    const product = await Product.findById(req.params.id);
+    if (product) {
+      (product.name = req.body.name),
+        (product.slug = req.body.slug),
+        (product.price = req.body.price),
+        (product.image = req.body.image),
+        (product.category = req.body.category),
+        (product.brand = req.body.brand),
+        (product.description = req.body.description),
+        await product.save();
+      res.send({ message: 'product Updated' });
+    } else {
+      res.status(404).send({ message: 'Product Not Found' });
+    }
+  })
+);
 export default productRouter;

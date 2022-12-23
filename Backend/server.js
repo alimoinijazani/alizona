@@ -6,6 +6,7 @@ import seedRouter from './Routes/seedRoutes.js';
 import productRouter from './Routes/productRoutes.js';
 import userRouter from './Routes/userRoutes.js';
 import orderRouter from './Routes/orderRoutes.js';
+import uploadRouter from './Routes/uploadRoutes.js';
 dotenv.config();
 mongoose
   .connect(process.env.MONGODB_URI)
@@ -20,6 +21,7 @@ app.get('api/keys/paypal', (req, res) => {
   res.send(process.env.PAYPAL_CLIENT_ID || 'sb');
 });
 app.use('/api/seed', seedRouter);
+app.use('/api/upload', uploadRouter);
 app.use('/api/products', productRouter);
 app.use('/api/users', userRouter);
 app.use('/api/orders', orderRouter);
