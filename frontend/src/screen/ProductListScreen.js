@@ -61,7 +61,7 @@ export default function ProductListScreen() {
   const { search } = useLocation();
   const sp = new URLSearchParams(search);
   const page = sp.get('page') || 1;
-
+  const order = sp.get('order') || '_id';
   const { state } = useContext(Store);
   const { userInfo } = state;
   const navigate = useNavigate();
@@ -69,11 +69,14 @@ export default function ProductListScreen() {
     const fetchData = async () => {
       try {
         dispatch({ type: 'FETCH_REQUEST' });
-        const { data } = await axios.get(`/api/products/admin?page=${page}`, {
-          headers: {
-            authorization: `bearer ${userInfo.token}`,
-          },
-        });
+        const { data } = await axios.get(
+          `/api/products/admin?page=${page}&order=${order}`,
+          {
+            headers: {
+              authorization: `bearer ${userInfo.token}`,
+            },
+          }
+        );
         dispatch({ type: 'FETCH_SUCCESS', payload: data });
       } catch (err) {
         dispatch({ type: 'FETCH_FAIL', payload: getError(err) });
@@ -84,7 +87,7 @@ export default function ProductListScreen() {
     } else {
       fetchData();
     }
-  }, [page, successDelete, userInfo]);
+  }, [order, page, successDelete, userInfo]);
   const createHandler = async () => {
     if (window.confirm('Are You Sure To Create?')) {
       try {
@@ -119,6 +122,9 @@ export default function ProductListScreen() {
       }
     }
   };
+  const getFilterSort = (column) => {
+    return `/admin/products?order=${column}`;
+  };
   return (
     <div>
       <Row className="my-2">
@@ -139,11 +145,46 @@ export default function ProductListScreen() {
           <Table>
             <thead>
               <tr>
-                <th>ID</th>
-                <th>NAME</th>
-                <th>PRICE</th>
-                <th>CATEGORY</th>
-                <th>BRAND</th>
+                <th>
+                  {' '}
+                  <Link
+                    to={getFilterSort(order === 'price' ? '-price' : 'price')}
+                  >
+                    ID
+                  </Link>
+                </th>
+                <th>
+                  {' '}
+                  <Link
+                    to={getFilterSort(order === 'price' ? '-price' : 'price')}
+                  >
+                    NAME
+                  </Link>
+                </th>
+                <th>
+                  {' '}
+                  <Link
+                    to={getFilterSort(order === 'price' ? '-price' : 'price')}
+                  >
+                    PRICE
+                  </Link>
+                </th>
+                <th>
+                  {' '}
+                  <Link
+                    to={getFilterSort(order === 'price' ? '-price' : 'price')}
+                  >
+                    CATEGORY
+                  </Link>
+                </th>
+                <th>
+                  {' '}
+                  <Link
+                    to={getFilterSort(order === 'price' ? '-price' : 'price')}
+                  >
+                    BRAND
+                  </Link>
+                </th>
                 <th>Action</th>
               </tr>
             </thead>

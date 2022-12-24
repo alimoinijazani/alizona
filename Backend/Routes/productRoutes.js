@@ -85,8 +85,10 @@ productRouter.get(
     const countProducts = await Product.countDocuments();
     const { query } = req;
     const page = query.page || 1;
+    const order = query.order || '_id';
     const pageSize = query.pageSize || PAGE_SIZE;
     const products = await Product.find()
+      .sort(order)
       .skip((page - 1) * pageSize)
       .limit(pageSize);
     const pages = Math.ceil(countProducts / pageSize);
