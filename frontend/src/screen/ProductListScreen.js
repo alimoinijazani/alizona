@@ -25,23 +25,43 @@ const reducer = (state, action) => {
     case 'FETCH_FAIL':
       return { ...state, loading: false, error: action.payload };
     case 'CREATE_REQUEST':
-      return { ...state, loadingUpdate: true };
+      return { ...state, loadingCreate: true };
     case 'CREATE_SUCCESS':
-      return { ...state, loadingUpdate: false };
+      return { ...state, loadingCreate: false };
     case 'CREATE_FAIL':
-      return { ...state, loadingUpdate: false, error: action.payload };
+      return { ...state, loadingCreate: false, error: action.payload };
+    case 'DELETE_REQUEST':
+      return { ...state, loadingDelete: true, successDelete: false };
+    case 'DELETE_SUCCESS':
+      return { ...state, loadingDelete: false, successDelete: true };
+    case 'DELETE_FAIL':
+      return { ...state, loadingDelete: false, successDelete: false };
+    case 'DELETE_RESET':
+      return { ...state, loadingDelete: false, successDelete: false };
     default:
       return state;
   }
 };
 export default function ProductListScreen() {
-  const [{ loading, error, products, pages }, dispatch] = useReducer(reducer, {
+  const [
+    {
+      loading,
+      error,
+      products,
+      pages,
+      loadingDelete,
+      successDelete,
+      loadingCreate,
+    },
+    dispatch,
+  ] = useReducer(reducer, {
     loading: true,
     error: '',
   });
   const { search } = useLocation();
   const sp = new URLSearchParams(search);
   const page = sp.get('page') || 1;
+
   const { state } = useContext(Store);
   const { userInfo } = state;
   const navigate = useNavigate();
@@ -59,8 +79,12 @@ export default function ProductListScreen() {
         dispatch({ type: 'FETCH_FAIL', payload: getError(err) });
       }
     };
-    fetchData();
-  }, [page, userInfo]);
+    if (successDelete) {
+      dispatch({ type: 'DELETE_RESET' });
+    } else {
+      fetchData();
+    }
+  }, [page, successDelete, userInfo]);
   const createHandler = async () => {
     if (window.confirm('Are You Sure To Create?')) {
       try {
@@ -80,6 +104,21 @@ export default function ProductListScreen() {
       }
     }
   };
+  const deleteHandler = async (product) => {
+    if (window.confirm('Are You Sure To Delete?')) {
+      try {
+        dispatch({ type: 'DELETE_REQUEST' });
+        await axios.delete(`/api/products/${product._id}`, {
+          headers: { authorization: `bearer ${userInfo.token}` },
+        });
+        toast.success('product delete successfuly');
+        dispatch({ type: 'DELETE_SUCCESS' });
+      } catch (err) {
+        toast.error(getError(err));
+        dispatch({ type: 'DELETE_FAIL' });
+      }
+    }
+  };
   return (
     <div>
       <Row className="my-2">
@@ -90,6 +129,7 @@ export default function ProductListScreen() {
           <Button onClick={createHandler}>Create Product</Button>
         </Col>
       </Row>
+      {loadingCreate && <Loading />} {loadingDelete && <Loading />}
       {loading ? (
         <Loading />
       ) : error ? (
@@ -121,6 +161,13 @@ export default function ProductListScreen() {
                       onClick={() => navigate(`/admin/product/${product._id}`)}
                     >
                       Edit
+                    </Button>
+                    <Button
+                      variant="light"
+                      className="mx-1"
+                      onClick={() => deleteHandler(product)}
+                    >
+                      Delete
                     </Button>
                   </td>
                 </tr>
