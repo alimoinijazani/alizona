@@ -71,6 +71,7 @@ export default function OrderScreen() {
           }
         );
         dispatch({ type: 'PAY_SUCCESS' });
+        toast.success('Order is Paid');
       } catch (err) {
         dispatch({ type: 'PAY_FAIL', payload: getError(err) });
         toast.error(getError(err));
@@ -140,7 +141,7 @@ export default function OrderScreen() {
                 {order.shippingAddress.address}
                 <br />
               </Card.Text>
-              <MessageBox variant={!order.isDelivered && 'danger'}>
+              <MessageBox variant={!order.isDelivered ? 'danger' : 'success'}>
                 {order.isDelivered ? order.deliveredAt : 'Not Delivered'}
               </MessageBox>
             </Card.Body>
@@ -153,7 +154,7 @@ export default function OrderScreen() {
                 {order.paymenMethod}
                 <br />
               </Card.Text>
-              <MessageBox variant={!order.isPaid && 'danger'}>
+              <MessageBox variant={!order.isPaid ? 'danger' : 'success'}>
                 {order.isPaid ? order.paidAt : 'Not Paid'}
               </MessageBox>
             </Card.Body>

@@ -79,6 +79,7 @@ orderRouter.get(
     res.send({ orders, page, pages });
   })
 );
+
 orderRouter.get(
   '/:id',
   isAuth,
@@ -115,7 +116,7 @@ orderRouter.put(
   expressAsyncHandler(async (req, res) => {
     const order = await Order.findById(req.params.id);
     if (order) {
-      (order.ispaid = true),
+      (order.isPaid = true),
         (order.paidAt = Date.now()),
         (order.paymentResult = {
           id: req.body.id,
@@ -124,10 +125,12 @@ orderRouter.put(
           email_address: req.body.email_address,
         });
 
-      const updatedOrder = order.save();
+      const updatedOrder = await order.save();
+
       res.send({ message: 'Order Paid', order: updatedOrder });
+    } else {
+      res.status(404).send({ message: 'Order Not Found' });
     }
-    res.status(404).send({ message: 'Order Not Found' });
   })
 );
 orderRouter.delete(
