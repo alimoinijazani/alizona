@@ -4,6 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Card from 'react-bootstrap/Card';
+import Button from 'react-bootstrap/Button';
 import ListGroup from 'react-bootstrap/ListGroup';
 import MessageBox from '../components/MessageBox';
 import axios from 'axios';
@@ -22,26 +23,44 @@ const reducer = (state, action) => {
     case 'FETCH_FAIL':
       return { ...state, loading: false, error: action.payload };
     case 'PAY_REQUEST':
-      return { ...state, loadingPay: true };
+      return { ...state, loadingPay: true, successPay: false };
     case 'PAY_SUCCESS':
       return { ...state, loadingPay: false, successPay: true };
     case 'PAY_FAIL':
-      return { ...state, loadingPay: false };
+      return { ...state, loadingPay: false, successPay: false };
     case 'PAY_RESET':
       return { ...state, loadingPay: false, successPay: false };
+    case 'DELIVER_REQUEST':
+      return { ...state, loadingDeliver: true, successDeliver: false };
+    case 'DELIVER_SUCCESS':
+      return { ...state, loadingDeliver: false, successDeliver: true };
+    case 'DELIVER_FAIL':
+      return { ...state, loadingDeliver: false, successDeliver: false };
+    case 'DELIVER_RESET':
+      return { ...state, loadingDeliver: false, successDeliver: false };
     default:
       return state;
   }
 };
 export default function OrderScreen() {
-  const [{ loading, order, error, loadingPay, successPay }, dispatch] =
-    useReducer(reducer, {
-      order: {},
-      error: '',
-      loadingPay: false,
-      successPay: false,
-      loading: true,
-    });
+  const [
+    {
+      loading,
+      order,
+      error,
+      loadingPay,
+      successPay,
+      loadingDeliver,
+      successDeliver,
+    },
+    dispatch,
+  ] = useReducer(reducer, {
+    order: {},
+    error: '',
+    loadingPay: false,
+    successPay: false,
+    loading: true,
+  });
   const navigate = useNavigate();
   const { state } = useContext(Store);
   const { userInfo } = state;
@@ -74,6 +93,7 @@ export default function OrderScreen() {
         toast.success('Order is Paid');
       } catch (err) {
         dispatch({ type: 'PAY_FAIL', payload: getError(err) });
+
         toast.error(getError(err));
       }
     });
@@ -98,10 +118,18 @@ export default function OrderScreen() {
     if (!userInfo) {
       return navigate('/login');
     }
-    if (!order._id || successPay || (order._id && order._id !== orderId)) {
+    if (
+      !order._id ||
+      successPay ||
+      successDeliver ||
+      (order._id && order._id !== orderId)
+    ) {
       fetchData();
       if (successPay) {
         dispatch({ type: 'PAY_RESET' });
+      }
+      if (successDeliver) {
+        dispatch({ type: 'DELIVER_RESET' });
       }
     } else {
       const loadPayPalScript = async () => {
@@ -116,8 +144,34 @@ export default function OrderScreen() {
       };
       loadPayPalScript();
     }
-  }, [userInfo, orderId, order, navigate, paypalDispatch, successPay]);
-
+  }, [
+    userInfo,
+    orderId,
+    order,
+    navigate,
+    paypalDispatch,
+    successPay,
+    successDeliver,
+  ]);
+  const deliverOrderHandler = async () => {
+    try {
+      dispatch({ type: 'DELIVER_REQUEST' });
+      await axios.put(
+        `/api/orders/${orderId}/deliver`,
+        {},
+        {
+          headers: {
+            authorization: `bearer ${userInfo.token}`,
+          },
+        }
+      );
+      dispatch({ type: 'DELIVER_SUCCESS' });
+      toast.success('Deliverd Order');
+    } catch (err) {
+      dispatch({ type: 'DELIVER_FAIL' });
+      toast.error(getError(err));
+    }
+  };
   return loading ? (
     <Loading />
   ) : error ? (
@@ -231,6 +285,19 @@ export default function OrderScreen() {
                       </div>
                     )}
                     {loadingPay && <Loading />}
+                  </ListGroup.Item>
+                )}
+                {userInfo.isAdmin && order.isPaid && !order.isDelivered && (
+                  <ListGroup.Item>
+                    {loadingDeliver ? (
+                      <Loading />
+                    ) : (
+                      <div className="d-grid">
+                        <Button onClick={deliverOrderHandler}>
+                          Deliver Order
+                        </Button>
+                      </div>
+                    )}
                   </ListGroup.Item>
                 )}
               </ListGroup>
