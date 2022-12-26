@@ -23,6 +23,7 @@ import AdminRoutes from './components/AdminRoutes';
 import DashBoardScreen from './screen/DashBoardScreen';
 import ProductListScreen from './screen/ProductListScreen';
 import ProductEditScreen from './screen/ProductEditScreen';
+import OrderListScreen from './screen/OrderListScreen';
 
 export default function App() {
   const [sideBar, setSideBar] = useState(false);
@@ -91,6 +92,14 @@ export default function App() {
                 element={
                   <AdminRoutes>
                     <ProductEditScreen />
+                  </AdminRoutes>
+                }
+              />
+              <Route
+                path="/admin/orders"
+                element={
+                  <AdminRoutes>
+                    <OrderListScreen />
                   </AdminRoutes>
                 }
               />

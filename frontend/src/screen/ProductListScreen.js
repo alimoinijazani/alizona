@@ -217,7 +217,10 @@ export default function ProductListScreen() {
           </Table>
 
           {[...Array(pages).keys()].map((x) => (
-            <Link key={x + 1} to={`/admin/products?page=${x + 1}`}>
+            <Link
+              key={x + 1}
+              to={`/admin/products?page=${x + 1}&order=${order}`}
+            >
               <Button
                 variant="light"
                 className={Number(page) === x + 1 ? 'text-bold' : ''}

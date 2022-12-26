@@ -58,7 +58,27 @@ orderRouter.get(
     res.send({ orders, users, dailyOrders, productCategories });
   })
 );
+const PAGE_SIZE = 4;
+orderRouter.get(
+  '/',
+  isAuth,
+  isAdmin,
+  expressAsyncHandler(async (req, res) => {
+    const { query } = req;
+    const page = query.page || 1;
+    const order = query.order || '_id';
+    const pageSize = query.pageSize || PAGE_SIZE;
+    const orders = await Order.find()
+      .populate('user', 'name')
+      .sort(order)
+      .limit(pageSize)
+      .skip((page - 1) * pageSize);
 
+    const countOrders = await Order.countDocuments();
+    const pages = Math.ceil(countOrders / pageSize);
+    res.send({ orders, page, pages });
+  })
+);
 orderRouter.get(
   '/:id',
   isAuth,
@@ -108,6 +128,20 @@ orderRouter.put(
       res.send({ message: 'Order Paid', order: updatedOrder });
     }
     res.status(404).send({ message: 'Order Not Found' });
+  })
+);
+orderRouter.delete(
+  '/:id',
+  isAuth,
+  isAdmin,
+  expressAsyncHandler(async (req, res) => {
+    const order = await Order.findById(req.params.id);
+    if (order) {
+      await order.remove();
+      res.send(order);
+    } else {
+      res.status(404).send('Order Not Found');
+    }
   })
 );
 export default orderRouter;

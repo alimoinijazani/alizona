@@ -17,7 +17,12 @@ export default function SideBarScreen({ sideBar, categories }) {
         </Nav.Item>
         {categories.map((category) => (
           <Nav.Item key={category}>
-            <Link to={`/search?ca${category}`}>{category}</Link>
+            <Link
+              to={`/search?ca${category}`}
+              style={{ color: ' antiquewhite' }}
+            >
+              {category}
+            </Link>
           </Nav.Item>
         ))}
       </Nav>

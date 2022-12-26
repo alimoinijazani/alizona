@@ -35,7 +35,7 @@ export default function NavScreen({ sideBar, onSide }) {
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="ms-auto w-100 justify-content-end align-items-center p-2">
               <Nav.Item>
-                <Link to="/cart">
+                <Link to="/cart" style={{ color: ' antiquewhite' }}>
                   Cart
                   {cart.cartItems.length > 0 ? (
                     <Badge pill bg="danger">
