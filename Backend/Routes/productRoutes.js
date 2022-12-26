@@ -147,6 +147,7 @@ productRouter.put(
         (product.image = req.body.image),
         (product.category = req.body.category),
         (product.brand = req.body.brand),
+        (product.countInStock = req.body.countInStock),
         (product.description = req.body.description),
         await product.save();
       res.send({ message: 'product Updated' });
