@@ -127,7 +127,7 @@ export default function UserListScreen() {
                   <td>
                     <Button
                       variant="light"
-                      onClick={() => navigate(`/users/${user._id}`)}
+                      onClick={() => navigate(`/admin/users/${user._id}`)}
                     >
                       Edit
                     </Button>

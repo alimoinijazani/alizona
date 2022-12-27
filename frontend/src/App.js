@@ -114,7 +114,7 @@ export default function App() {
                 }
               />
               <Route
-                path="/admin/users:id"
+                path="/admin/users/:id"
                 element={
                   <AdminRoutes>
                     <UserEditScreen />

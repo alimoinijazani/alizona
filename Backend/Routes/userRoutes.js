@@ -32,6 +32,19 @@ userRouter.get(
     }
   })
 );
+userRouter.get(
+  '/:id',
+  isAuth,
+  isAdmin,
+  expressAsyncHandler(async (req, res) => {
+    const user = await User.findById(req.params.id);
+    if (user) {
+      res.send(user);
+    } else {
+      res.status(404).send({ message: 'user Not Found' });
+    }
+  })
+);
 userRouter.post(
   '/signin',
   expressAsyncHandler(async (req, res) => {
@@ -48,7 +61,7 @@ userRouter.post(
         return;
       }
     }
-    res.status(404).send({ message: 'wrong email or passwodd ' });
+    res.status(404).send({ message: 'wrong email or password ' });
   })
 );
 userRouter.post(
@@ -93,6 +106,25 @@ userRouter.put(
       });
     } else {
       res.status(404).send({ message: 'user not found' });
+    }
+  })
+);
+userRouter.put(
+  '/:id',
+  isAuth,
+  isAdmin,
+  expressAsyncHandler(async (req, res) => {
+    const user = await User.findById(req.params.id);
+    if (user) {
+      (user.name = req.body.name || user.name),
+        (user.email = req.body.email || user.email),
+        (user.isAdmin = Boolean(req.body.isAdmin)),
+        (user.password = bcrypt.hashSync(req.body.password));
+
+      const updatedUser = await user.save();
+      res.send({ message: 'user Updated', user: updatedUser });
+    } else {
+      res.status(404).send('user Not Found');
     }
   })
 );
