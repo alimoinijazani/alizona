@@ -23,18 +23,19 @@ export default function SignUpScreen() {
     e.preventDefault();
     if (password !== confirmPassword) {
       toast.error('password and confirm should be equal');
-    }
-    try {
-      const { data } = await axios.post('/api/users/signup', {
-        name,
-        email,
-        password,
-      });
-      ctxDispatch({ type: 'USER_SIGNIN', payload: data });
-      localStorage.setItem('userInfo', JSON.stringify(data));
-      navigate(redirect || '/');
-    } catch (err) {
-      toast.error(getError(err));
+    } else {
+      try {
+        const { data } = await axios.post('/api/users/signup', {
+          name,
+          email,
+          password,
+        });
+        ctxDispatch({ type: 'USER_SIGNIN', payload: data });
+        localStorage.setItem('userInfo', JSON.stringify(data));
+        navigate(redirect || '/');
+      } catch (err) {
+        toast.error(getError(err));
+      }
     }
   };
   useEffect(() => {
