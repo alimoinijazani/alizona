@@ -24,6 +24,8 @@ import DashBoardScreen from './screen/DashBoardScreen';
 import ProductListScreen from './screen/ProductListScreen';
 import ProductEditScreen from './screen/ProductEditScreen';
 import OrderListScreen from './screen/OrderListScreen';
+import UserListScreen from './screen/UserListScreen';
+import UserEditScreen from './screen/UserEditScreen';
 
 export default function App() {
   const [sideBar, setSideBar] = useState(false);
@@ -100,6 +102,22 @@ export default function App() {
                 element={
                   <AdminRoutes>
                     <OrderListScreen />
+                  </AdminRoutes>
+                }
+              />
+              <Route
+                path="/admin/users"
+                element={
+                  <AdminRoutes>
+                    <UserListScreen />
+                  </AdminRoutes>
+                }
+              />
+              <Route
+                path="/admin/users:id"
+                element={
+                  <AdminRoutes>
+                    <UserEditScreen />
                   </AdminRoutes>
                 }
               />

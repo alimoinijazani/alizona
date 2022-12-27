@@ -2,13 +2,36 @@ import express from 'express';
 import expressAsyncHandler from 'express-async-handler';
 import User from '../models/userModel.js';
 import bcrypt from 'bcryptjs';
-import { generateToken, isAuth } from './../models/utils.js';
+import { generateToken, isAdmin, isAuth } from './../models/utils.js';
 const userRouter = express.Router();
 
 userRouter.get('/', async (req, res) => {
   const user = await User.find();
   res.send(user);
 });
+const PAGE_SIZE = 4;
+userRouter.get(
+  '/admin',
+  isAuth,
+  isAdmin,
+  expressAsyncHandler(async (req, res) => {
+    const { query } = req;
+    const pageSize = query.pageSize || PAGE_SIZE;
+    const page = query.page || 1;
+    const order = query.order || '_id';
+    const users = await User.find()
+      .sort(order)
+      .skip((page - 1) * pageSize)
+      .limit(pageSize);
+    if (users) {
+      const countUsers = await User.countDocuments();
+      const pages = Math.ceil(countUsers / pageSize);
+      res.send({ users, page, pages });
+    } else {
+      res.status(404).send({ error: 'Users Not Found' });
+    }
+  })
+);
 userRouter.post(
   '/signin',
   expressAsyncHandler(async (req, res) => {
