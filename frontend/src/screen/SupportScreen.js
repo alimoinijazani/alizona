@@ -15,7 +15,7 @@ const ENDPOINT =
 export default function SupportScreen() {
   const [selectedUser, setSelectedUser] = useState({});
   const [socket, setSocket] = useState(null);
-  const uiMessageRef = useRef(null);
+  const uiMessagesRef = useRef(null);
   const [messageBody, setMessageBody] = useState('');
   const [messages, setMessages] = useState([]);
   const [users, setUsers] = useState([]);
@@ -23,9 +23,9 @@ export default function SupportScreen() {
   const { userInfo } = state;
 
   useEffect(() => {
-    if (uiMessageRef.current) {
-      uiMessageRef.current.scrollBy({
-        top: uiMessageRef.current.clientHeight,
+    if (uiMessagesRef.current) {
+      uiMessagesRef.current.scrollBy({
+        top: uiMessagesRef.current.clientHeight,
         left: 0,
         behavior: 'smooth',
         //end of message
@@ -141,7 +141,7 @@ export default function SupportScreen() {
             <Row>
               <strong>Chat with {selectedUser.name}</strong>
             </Row>
-            <ul ref={uiMessageRef}>
+            <ul ref={uiMessagesRef}>
               {messages.length === 0 && <li>No Message</li>}
               {messages.map((msg, index) => (
                 <li key={index}>
