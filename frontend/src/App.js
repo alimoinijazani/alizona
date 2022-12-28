@@ -26,6 +26,7 @@ import ProductEditScreen from './screen/ProductEditScreen';
 import OrderListScreen from './screen/OrderListScreen';
 import UserListScreen from './screen/UserListScreen';
 import UserEditScreen from './screen/UserEditScreen';
+import SupportScreen from './screen/SupportScreen';
 
 export default function App() {
   const [sideBar, setSideBar] = useState(false);
@@ -118,6 +119,14 @@ export default function App() {
                 element={
                   <AdminRoutes>
                     <UserEditScreen />
+                  </AdminRoutes>
+                }
+              />
+              <Route
+                path="/support"
+                element={
+                  <AdminRoutes>
+                    <SupportScreen />
                   </AdminRoutes>
                 }
               />

@@ -79,6 +79,9 @@ export default function NavScreen({ sideBar, onSide }) {
                     <LinkContainer to="/admin/users">
                       <NavDropdown.Item>Users</NavDropdown.Item>
                     </LinkContainer>
+                    <LinkContainer to="/support">
+                      <NavDropdown.Item>Support</NavDropdown.Item>
+                    </LinkContainer>
                   </NavDropdown>
                 ) : null}
               </Nav.Item>
