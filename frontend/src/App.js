@@ -28,6 +28,8 @@ import UserListScreen from './screen/UserListScreen';
 import UserEditScreen from './screen/UserEditScreen';
 import SupportScreen from './screen/SupportScreen';
 
+import FooterScreen from './screen/FooterScreen';
+
 export default function App() {
   const [sideBar, setSideBar] = useState(false);
   const [categories, setCategories] = useState([]);
@@ -133,9 +135,7 @@ export default function App() {
             </Routes>
           </Container>
         </main>
-        <footer className="footer">
-          <div className="text-center">All Right Reserved</div>
-        </footer>
+        <FooterScreen />
       </div>
     </BrowserRouter>
   );

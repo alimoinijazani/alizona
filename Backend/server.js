@@ -30,27 +30,31 @@ app.use('/api/orders', orderRouter);
 app.use((err, req, res, next) => {
   res.status(500).send({ message: err.message });
 });
-const httpServer = http.createServer(app);
+const httpServer = http.Server(app);
 const users = [];
-const io = new Server(httpServer);
+const io = new Server(httpServer, {
+  cors: { origin: '*' },
+});
+
 io.on('connection', (socket) => {
+  //disconect
   socket.on('disconect', () => {
     const user = users.find((x) => x.socketId === socket.id);
     if (user) {
-      user.online = false;
-      console.log('Offline', user.name);
+      (user.online = false), console.log('Offline', user.name);
       const admin = users.find((x) => x.isAdmin && x.online);
       if (admin) {
         io.to(admin.socketId).emit('updateUser', user);
       }
     }
   });
+  //login
   socket.on('onLogin', (user) => {
     const updatedUser = {
       ...user,
       online: true,
       socketId: socket.id,
-      message: [],
+      messages: [],
     };
     const existUser = users.find((x) => x._id === updatedUser._id);
     if (existUser) {
@@ -59,44 +63,51 @@ io.on('connection', (socket) => {
     } else {
       users.push(updatedUser);
     }
-    console.log('Online', user.name);
-    const admin = user.find((x) => x.isAdmin && x.online);
+    console.log('online', user.name);
+    const admin = users.find((x) => x.isAdmin && x.online);
     if (admin) {
       io.to(admin.socketId).emit('updateUser', updatedUser);
     }
     if (updatedUser.isAdmin) {
-      io.to(updatedUser.socketId).emit('listUser', users);
+      io.to(updatedUser.socketId).emit('listUsers', users);
     }
   });
+  //select user in admin panel
   socket.on('onUserSelected', (user) => {
     const admin = users.find((x) => x.isAdmin && x.online);
     if (admin) {
       const existUser = users.find((x) => x._id === user._id);
+      //exist user contain messages and name,..
       io.to(admin.socketId).emit('selectUser', existUser);
     }
   });
   socket.on('onMessage', (message) => {
+    //admin send
     if (message.isAdmin) {
-      const user = users.find((x) => x._id === message._id && x.online);
+      const user = users.find((x) => x._id === message._id);
       if (user) {
         io.to(user.socketId).emit('message', message);
-        user.message.push(message);
+        user.messages.push(message);
+      } else {
+        console.log('user not found');
       }
-    } else {
+    } //user send
+    else {
       const admin = users.find((x) => x.isAdmin && x.online);
       if (admin) {
         io.to(admin.socketId).emit('message', message);
         const user = users.find((x) => x._id === message._id && x.online);
-        user.message.push(message);
+        user.messages.push(message);
       } else {
         io.to(socket.id).emit('message', {
           name: 'Admin',
-          body: 'Sorry. I am not online right now',
+          body: 'Sorry.I am not Online right now',
         });
       }
     }
   });
 });
+
 const port = process.env.PORT || 5000;
 httpServer.listen(port, () => console.log(`server at port ${port}`));
 // app.listen(port, () => console.log(`listen port ${port}`));
