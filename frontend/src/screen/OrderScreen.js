@@ -93,7 +93,6 @@ export default function OrderScreen() {
         toast.success('Order is Paid');
       } catch (err) {
         dispatch({ type: 'PAY_FAIL', payload: getError(err) });
-
         toast.error(getError(err));
       }
     });
@@ -172,6 +171,7 @@ export default function OrderScreen() {
       toast.error(getError(err));
     }
   };
+
   return loading ? (
     <Loading />
   ) : error ? (
@@ -221,7 +221,7 @@ export default function OrderScreen() {
                   <ListGroup.Item key={item._id}>
                     <Row className="align-item-center">
                       <Col md={6}>
-                        <Link to={`/products/${item.slug}`}>
+                        <Link to={`/product/${item.slug}`}>
                           <img
                             className="img-thumbnail img-round"
                             src={item.image}
