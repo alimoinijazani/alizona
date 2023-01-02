@@ -140,6 +140,13 @@ orderRouter.put(
           update_time: req.body.update_Time,
           email_address: req.body.email_address,
         });
+      const idSale = order.orderItems.map((item) => item.product);
+      const quantity = order.orderItems.map((item) => item.quantity);
+
+      const product = await Product.updateMany(
+        { _id: idSale },
+        { $inc: { countInStock: -Number(quantity) } }
+      );
 
       const updatedOrder = await order.save();
 
