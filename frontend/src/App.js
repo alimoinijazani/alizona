@@ -29,6 +29,7 @@ import UserEditScreen from './screen/UserEditScreen';
 import SupportScreen from './screen/SupportScreen';
 
 import FooterScreen from './screen/FooterScreen';
+import NotFoundScreen from './screen/NotFoundScreen';
 
 export default function App() {
   const [sideBar, setSideBar] = useState(false);
@@ -132,6 +133,7 @@ export default function App() {
                   </AdminRoutes>
                 }
               />
+              <Route path="*" element={<NotFoundScreen />} />
             </Routes>
           </Container>
         </main>
