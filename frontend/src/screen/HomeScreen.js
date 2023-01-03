@@ -5,6 +5,7 @@ import axios from 'axios';
 import Product from '../components/product';
 import Loading from './../components/Loading';
 import MessageBox from './../components/MessageBox';
+import CourselScreen from '../components/CourselScreen';
 const reducer = (state, action) => {
   switch (action.type) {
     case 'FETCH_REQUEST':
@@ -45,13 +46,16 @@ export default function HomeScreen() {
       ) : error ? (
         <MessageBox variant={'danger'}>{error}</MessageBox>
       ) : (
-        <Row>
-          {products.map((product) => (
-            <Col key={product.slug} md={4} lg={3} sm={8} className="my-2">
-              <Product product={product} />
-            </Col>
-          ))}
-        </Row>
+        <>
+          <CourselScreen />
+          <Row className="my-4">
+            {products.map((product) => (
+              <Col key={product.slug} md={4} lg={3} sm={8} className="my-2">
+                <Product product={product} />
+              </Col>
+            ))}
+          </Row>
+        </>
       )}
     </div>
   );

@@ -104,3 +104,25 @@ ul {
   height: 68vh;
   margin-bottom: 1rem;
 }
+/*coursel*/
+
+.carousel-indicators {
+  background: transparent;
+}
+
+.carousel-control-next {
+  background: grey;
+}
+.carousel-control-prev {
+  background: grey;
+}
+.carousel-caption {
+  background: transparent;
+  color: aquamarine;
+}
+.carousel-item img {
+  margin: auto;
+}
+.img-carousel {
+  max-height: 50vh;
+}
