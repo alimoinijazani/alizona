@@ -53,9 +53,9 @@ export default function SearchScreen() {
   const price = sp.get('price') || 'all';
   const rating = sp.get('rating') || 'all';
   const order = sp.get('order') || 'newest';
-  const p = sp.get('page') || '1';
+  const page = sp.get('page') || '1';
   const [categories, setCategories] = useState([]);
-  const [page, setPage] = useState(p);
+
   const getFilterUrl = (filter) => {
     const filterQuery = filter.query || query;
     const filterCategory = filter.category || category;
@@ -70,18 +70,15 @@ export default function SearchScreen() {
       try {
         dispatch({ type: 'FETCH_REQUEST' });
         const { data } = await axios.get(
-          `/api/products/search?category=${category}&query=${query}&page=${p}&order=${order}&price=${price}&rating=${rating}`
+          `/api/products/search?category=${category}&query=${query}&page=${page}&order=${order}&price=${price}&rating=${rating}`
         );
         dispatch({ type: 'FETCH_SUCCESS', payload: data });
-        if (pages === 1) {
-          setPage(1);
-        }
       } catch (err) {
         dispatch({ type: 'FETCH_FAIL' });
       }
     };
     fetchData();
-  }, [category, order, p, page, pages, price, query, rating]);
+  }, [category, order, page, pages, price, query, rating]);
   useEffect(() => {
     const fetchCategories = async () => {
       try {
@@ -211,16 +208,18 @@ export default function SearchScreen() {
                   </Col>
                 ))}
               </Row>
-              {[...Array(pages).keys()].map((x) => (
-                <Link key={x} to={getFilterUrl({ page: x + 1 })}>
-                  <Button
-                    variant="light"
-                    className={Number(page) === x + 1 ? 'text-bold' : ''}
-                  >
-                    {x + 1}
-                  </Button>
-                </Link>
-              ))}
+              <div>
+                {[...Array(pages).keys()].map((x) => (
+                  <Link key={x} to={getFilterUrl({ page: x + 1 })}>
+                    <Button
+                      variant="light"
+                      className={Number(page) === x + 1 ? 'text-bold' : ''}
+                    >
+                      {x + 1}
+                    </Button>
+                  </Link>
+                ))}
+              </div>
             </Row>
           )}
         </Col>
