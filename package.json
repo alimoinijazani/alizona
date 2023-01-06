@@ -17,6 +17,9 @@
   },
   "author": "",
   "license": "ISC",
+  "dependencies": {
+    "socket.io": "^4.5.4"
+  },
   "bugs": {
     "url": "https://github.com/alimoinijazani/alizon/issues"
   },
